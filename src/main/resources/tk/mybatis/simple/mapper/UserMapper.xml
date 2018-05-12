@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tk.mybatis.simple.mapper.UserMapper">
+
+	<resultMap type="tk.mybatis.simple.model.SysUser" id="userMap">
+		<id property="id" column="id"/>
+		<result property="userName" column="user_name"/>
+		<result property="userPassword" column="user_password"/>
+		<result property="userEmail" column="user_email"/>
+		<result property="userInfo" column="user_info"/>
+		<result property="headImg" column="head_img" jdbcType="BLOB"/>
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+	</resultMap>
+
+	<select id="selectById" resultMap="userMap">
+		select * from sys_user where id = #{id}
+	</select>
+	
+	<!-- 未配置mapUnderscoreToCamelCase，需写别名映射 -->
+	<!-- <select id="selectAll" resultType="SysUser">
+		select id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		from sys_user
+	</select> -->
+	
+	<!-- 配置了mapUnderscoreToCamelCase，可以不写别名 -->
+	<select id="selectAll" resultType="SysUser">
+		select id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		from sys_user
+	</select>
+	
+	<!-- 结果含多个实体的值 -->
+	<select id="selectRolesByUserId" resultType="SysRole">
+		select
+			r.id,
+			r.role_name,
+			r.enabled,
+			r.create_by,
+			r.create_time,
+			u.user_name as "user.userName",
+			u.user_email as "user.userEmail"
+		from sys_user u
+		inner join sys_user_role ur on u.id = ur.user_id
+		inner join sys_role r on ur.role_id = r.id
+		where u.id = #{userId}
+	</select>
+	
+	<!-- 插入，不配置自增主键 -->
+	<insert id="insert">
+		insert into sys_user(
+			id, user_name, user_password, user_email,
+			user_info, head_img, create_time)
+		values(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, 
+			#{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<!-- 插入，useGeneratedKeys方式配置自增主键 -->
+	<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user(
+			user_name, user_password, user_email,
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, 
+			#{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<!-- 插入，selectKey方式配置自增主键（MYSQL写法） -->
+	<insert id="insert3">
+		insert into sys_user(
+			user_name, user_password, user_email,
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, 
+			#{createTime, jdbcType=TIMESTAMP}
+		)
+		<selectKey keyColumn="id" resultType="long" keyProperty="id" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<!-- 插入，selectKey方式配置自增主键（Oracle写法） -->
+	<!-- <insert id="insert3">
+		<selectKey keyColumn="id" resultType="long" keyProperty="id" order="BEFORE">
+			select SEQ_ID.nextval from dual
+		</selectKey>
+		insert into sys_user(
+			id, user_name, user_password, user_email,
+			user_info, head_img, create_time)
+		values(
+			#{id}, #{userName}, #{userPassword}, #{userEmail},
+			#{userInfo}, #{headImg, jdbcType=BLOB}, 
+			#{createTime, jdbcType=TIMESTAMP}
+		)
+	</insert> -->
+	
+</mapper>

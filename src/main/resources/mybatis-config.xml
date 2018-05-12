@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 设置mybatis的全局属性 -->
+		<setting name="logImpl" value="LOG4J"/> <!-- 日志 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- sql下划线自动转驼峰 -->
+	</settings>
+	
+	<typeAliases>
+		<!-- 默认包名为MODEL包 -->
+		<package name="tk.mybatis.simple.model"/>
+	</typeAliases>
+	
+	<!-- 配置数据库环境 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value=""/>
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+				<property name="username" value="root"/>
+				<property name="password" value="tiger"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 配置数据库表和对象的映射文件 -->
+	<mappers>
+		<!-- 方式1 -->
+		<!-- <mapper resource="tk/mybatis/simple/mapper/UserMapper.xml"/>
+		<mapper resource="tk/mybatis/simple/mapper/RoleMapper.xml"/>
+		<mapper resource="tk/mybatis/simple/mapper/PrivilegeMapper.xml"/>
+		<mapper resource="tk/mybatis/simple/mapper/UserRoleMapper.xml"/>
+		<mapper resource="tk/mybatis/simple/mapper/RolePrivilegeMapper.xml"/> -->
+	
+		<!-- 方式2 使用了接口时-->
+		<package name="tk.mybatis.simple.mapper"/>
+	</mappers>
+</configuration>
