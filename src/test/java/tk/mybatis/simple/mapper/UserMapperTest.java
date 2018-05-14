@@ -142,4 +142,27 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	@Test
+	public void testUpdateById() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//先从数据库获取对象，判断名称为admin
+			SysUser user = userMapper.selectById(1L);
+			Assert.assertEquals("admin", user.getUserName());
+			//更新字段的值
+			user.setUserName("admin_test");
+			user.setUserEmail("test@mybatis.tk");
+			//更新，返回SQL影响行数
+			int result = userMapper.updateById(user);
+			Assert.assertEquals(1, result);
+			//从数据库获取修改后的对象，判断名称修改成admin_test
+			user = userMapper.selectById(1L);
+			Assert.assertEquals("admin_test", user.getUserName());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }

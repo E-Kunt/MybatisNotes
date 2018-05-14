@@ -33,4 +33,6 @@ public interface UserMapper {
 	 * @return
 	 */
 	int insert3(SysUser sysUser);
+	
+	int updateById(SysUser sysUser);
 }
