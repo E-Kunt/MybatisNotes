@@ -35,4 +35,18 @@ public interface UserMapper {
 	int insert3(SysUser sysUser);
 	
 	int updateById(SysUser sysUser);
+	
+	/**
+	 * 传入主键删除
+	 * @param id
+	 * @return
+	 */
+	int deleteById(Long id);
+	
+	/**
+	 * 传入对象删除（重载同名函数，XML可以不修改，共用同一SQL语句）
+	 * @param sysUser
+	 * @return
+	 */
+	int deleteById(SysUser sysUser);
 }
