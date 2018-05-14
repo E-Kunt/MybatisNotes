@@ -186,6 +186,39 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.rollback();
 			sqlSession.close();
 		}
-		
+	}
+	
+	/**
+	 * 通过用户id和角色enabled状态查用户的角色信息。
+	 */
+	@Test
+	public void testSelectRolesByUserIdAndRoleEnabled() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysRole> roleList = userMapper.selectRolesByUserIdAndRoleEnabled(1L, 1);
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	/**
+	 * 通过用户id和角色enabled状态查用户的角色信息。多个参数是javabean的时候。
+	 */
+	@Test
+	public void testSelectRolesByUserAndRole() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysRole> roleList = userMapper.selectRolesByUserAndRole(
+					userMapper.selectById(1L),
+					userMapper.selectRolesByUserId(1L).get(1));
+			Assert.assertNotNull(roleList);
+			Assert.assertTrue(roleList.size() > 0);
+		} finally {
+			sqlSession.close();
+		}
 	}
 }
