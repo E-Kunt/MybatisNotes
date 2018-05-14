@@ -7,6 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
+/**
+ * 用户表接口（注：Mybatis采用【动态代理】的方法，参考XML的配置为该接口创建实例）
+ * @author E-Kunt
+ *
+ */
 public interface UserMapper {
 
 	SysUser selectById(Long id);

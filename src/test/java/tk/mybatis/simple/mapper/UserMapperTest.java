@@ -17,7 +17,7 @@ public class UserMapperTest extends BaseMapperTest {
 		//获取sqlSession
 		SqlSession sqlSession = getSqlSession();
 		try {
-			//获取UserMapper接口
+			//获取UserMapper接口（注：Mybatis采用【动态代理】的方法，参考XML的配置为该接口创建实例）
 			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 			//调用selectById方法，查询
 			SysUser user = userMapper.selectById(1L);
