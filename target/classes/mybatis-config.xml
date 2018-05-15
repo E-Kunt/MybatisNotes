@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<settings>
 		<!-- 设置mybatis的全局属性 -->
 		<setting name="logImpl" value="LOG4J"/> <!-- 日志 -->
-		<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- sql下划线自动转驼峰 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- sql下划线自动转驼峰，若没有配置此属性，则SQL字段需要设置别名 -->
 	</settings>
 	
 	<typeAliases>
