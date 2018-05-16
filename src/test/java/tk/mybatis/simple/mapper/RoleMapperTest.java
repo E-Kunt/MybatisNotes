@@ -85,4 +85,33 @@ public class RoleMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	@Test
+	public void testUpdate() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			SysRole sysRole = roleMapper.selectById(1L);
+			sysRole.setRoleName("updateName");
+			Assert.assertEquals(1,roleMapper.updateById(sysRole));
+			Assert.assertEquals("updateName", roleMapper.selectById(1L).getRoleName());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
+	
+	@Test
+	public void testDelete() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+			Assert.assertNotNull(roleMapper.selectById(1L));
+			Assert.assertEquals(1,roleMapper.deleteById(1L));
+			Assert.assertNull(roleMapper.selectById(1L));
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }

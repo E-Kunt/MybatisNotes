@@ -1,12 +1,14 @@
 package tk.mybatis.simple.mapper;
 
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 
 import tk.mybatis.simple.model.SysRole;
 
@@ -70,4 +72,16 @@ public interface RoleMapper {
 		before=true) //返回非自增id(Oracle)
 	 */
 	int insert3(SysRole sysRole);
+	
+	@Update({"update sys_role",
+			 "set role_name = #{roleName},",
+			 	 "enabled = #{enabled},",
+			 	 "create_by = #{createBy},",
+			 	 "create_time = #{createTime, jdbcType = TIMESTAMP}",
+		 	 "where id = #{id}"})
+	int updateById(SysRole sysRole);
+	
+	@Delete("delete from sys_role where id = #{id}")
+	int deleteById(Long id);
+	
 }
