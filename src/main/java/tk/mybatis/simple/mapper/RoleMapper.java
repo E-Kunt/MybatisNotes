@@ -1,12 +1,12 @@
 package tk.mybatis.simple.mapper;
 
 
-import java.util.List;
-
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 
 import tk.mybatis.simple.model.SysRole;
 
@@ -45,4 +45,29 @@ public interface RoleMapper {
 	@Select("select * from sys_role")
 	List<SysRole> selectAll();*/
 	
+	@Insert({"insert into sys_role(id,role_name,enabled,create_by,create_time)",
+			 "values(#{id}, #{roleName}, #{enabled}, #{createBy},",
+			 "#{createTime, jdbcType=TIMESTAMP})"}) //无自增 id
+	int insert(SysRole sysRole);
+	
+	@Insert({"insert into sys_role(role_name,enabled,create_by,create_time)",
+		 "values(#{roleName}, #{enabled}, #{createBy},",
+		 "#{createTime, jdbcType=TIMESTAMP})"})
+	@Options(useGeneratedKeys=true, keyProperty="id") //自增id
+	int insert2(SysRole sysRole);
+	
+	@Insert({"insert into sys_role(role_name,enabled,create_by,create_time)",
+		 "values(#{roleName}, #{enabled}, #{createBy},",
+		 "#{createTime, jdbcType=TIMESTAMP})"})
+	@SelectKey(statement="select last_insert_id()",
+		keyProperty="id",
+		resultType=Long.class,
+		before=false) //返回非自增id(mysql)
+	/*
+	@SelectKey(statement="select SEQ_ID.nextval from dual",
+		keyProperty="id",
+		resultType=Long.class,
+		before=true) //返回非自增id(Oracle)
+	 */
+	int insert3(SysRole sysRole);
 }
