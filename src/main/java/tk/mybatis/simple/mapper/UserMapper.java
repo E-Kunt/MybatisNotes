@@ -79,4 +79,12 @@ public interface UserMapper {
 	List<SysRole> selectRolesByUserAndRole(
 			@Param("sysUser") SysUser sysUser,
 			@Param("sysRole") SysRole sysRole);
+	
+	/**
+	 * 根据动态条件查询用户信息
+	 * @param sysUser
+	 * @return
+	 */
+	List<SysUser> selectByUser(SysUser sysUser);
+	
 }

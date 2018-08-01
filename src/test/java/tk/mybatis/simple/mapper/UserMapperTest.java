@@ -221,4 +221,33 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * 根据动态条件查询用户信息
+	 */
+	@Test
+	public void testSelectByUser() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//仅搜索用户名
+			SysUser query = new SysUser();
+			query.setUserName("ad");
+			List<SysUser> userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+			//仅搜索邮箱
+			query = new SysUser();
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() > 0);
+			//同时按用户名和邮箱查询
+			query = new SysUser();
+			query.setUserName("ad");
+			query.setUserEmail("test@mybatis.tk");
+			userList = userMapper.selectByUser(query);
+			Assert.assertTrue(userList.size() == 0);//没有满足的，所以是结果数0
+		} finally {
+			sqlSession.close();
+		}
+	}
 }
