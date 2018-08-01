@@ -250,4 +250,30 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * 根据动态条件选择性更新用户信息
+	 */
+	@Test
+	public void testUpdateByIdSelective() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = new SysUser();
+			//更新id=1的用户
+			user.setId(1L);
+			//修改邮箱
+			user.setUserEmail("test@mybatis.tk");
+			//更新，返回SQL影响行数
+			int result = userMapper.updateByIdSelective(user);
+			Assert.assertEquals(1, result);
+			//从数据库获取修改后的对象，判断可知名称未更新，邮箱已更新
+			user = userMapper.selectById(1L);
+			Assert.assertEquals("admin", user.getUserName());
+			Assert.assertEquals("test@mybatis.tk", user.getUserEmail());
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }
