@@ -260,7 +260,7 @@ public class UserMapperTest extends BaseMapperTest {
 		try {
 			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 			SysUser user = new SysUser();
-			//更新id=1的用户
+			//更新id=1的用户.
 			user.setId(1L);
 			//修改邮箱
 			user.setUserEmail("test@mybatis.tk");
