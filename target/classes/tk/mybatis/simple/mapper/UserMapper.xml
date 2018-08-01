@@ -69,13 +69,20 @@
 		)
 	</insert>
 	
-	<!-- 插入，useGeneratedKeys方式配置自增主键 -->
+	<!-- 插入，useGeneratedKeys方式配置自增主键。
+	使用<if>动态插入数据，user_email仅传入非空值，若传入为空值则使用默认值。-->
 	<insert id="insert2" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_user(
-			user_name, user_password, user_email,
+			user_name, user_password, 
+			<if test="userEmail != null and userEmail != ''">
+			user_email,
+			</if>
 			user_info, head_img, create_time)
 		values(
-			#{userName}, #{userPassword}, #{userEmail},
+			#{userName}, #{userPassword}, 
+			<if test="userEmail != null and userEmail != ''">
+			#{userEmail},
+			</if>
 			#{userInfo}, #{headImg, jdbcType=BLOB}, 
 			#{createTime, jdbcType=TIMESTAMP}
 		)

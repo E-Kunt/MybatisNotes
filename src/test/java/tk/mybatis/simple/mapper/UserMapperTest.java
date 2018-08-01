@@ -276,4 +276,31 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * 测试使用<if>动态插入数据
+	 */
+	@Test
+	public void testInsert2Selective() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//创建对象,没有给email赋值
+			SysUser user = new SysUser();
+			user.setUserName("test-selective");
+			user.setUserPassword("123456");
+			user.setUserInfo("test info");
+			user.setCreateTime(new Date());
+			//插入数据
+			userMapper.insert2(user);
+			//获取插入的这条数据
+			user = userMapper.selectById(user.getId());
+			//可知，email用的是默认值
+			Assert.assertEquals("test@mybatis.tk",user.getUserEmail());
+		} finally {
+			//openSession()不会自动提交事务，可回滚，使不影响其他测试
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }
