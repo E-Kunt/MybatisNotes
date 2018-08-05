@@ -182,7 +182,7 @@
 	</select> -->
 	
 	<!-- 演示where标签，会自动剔除and和or。注意不必写where 1=1了。-->
-	<select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
+	<!-- <select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
 		select
 			id,
 			user_name,
@@ -200,6 +200,27 @@
 			and user_email = #{userEmail}
 			</if>
 		</where>
+	</select> -->
+	
+	<!-- 演示where标签对应的trim标签写法。注意："AND |OR "空格不能省-->
+	<select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
+		select
+			id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		from sys_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="userName != null and userName != ''">
+			and user_name like concat('%',#{userName},'%')
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+			and user_email = #{userEmail}
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 演示if标签，根据动态条件更新角色信息。【注意每个if标签的SQL后的“，”和最后还要更新"id=#{id}"】-->
@@ -229,7 +250,7 @@
 	</update> -->
 	
 	<!-- 演示set标签，会自动剔除末尾逗号。【注意：要保留"id=#{id}"】-->
-	<update id="updateByIdSelective">
+	<!-- <update id="updateByIdSelective">
 		update sys_user
 		<set> 
 			<if test="userName != null and userName != ''">
@@ -252,6 +273,33 @@
 			</if>
 			id = #{id},
 		</set>
+		where id = #{id}
+	</update> -->
+	
+	<!-- 演示set标签对应的trim标签写法。-->
+	<update id="updateByIdSelective">
+		update sys_user
+		<trim prefix="SET" suffixOverrides=","> 
+			<if test="userName != null and userName != ''">
+			user_name = #{userName},
+			</if>
+			<if test="userPassword != null and userPassword != ''">
+			user_password = #{userPassword},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+			user_email = #{userEmail},
+			</if>
+			<if test="userInfo != null and userInfo != ''">
+			user_info = #{userInfo},
+			</if>
+			<if test="headImg != null">
+			head_img = #{headImg, jdbcType=BLOB},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime, jdbcType=TIMESTAMP},
+			</if>
+			id = #{id},
+		</trim>
 		where id = #{id}
 	</update>
 	
