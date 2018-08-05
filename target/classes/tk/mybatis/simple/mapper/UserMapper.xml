@@ -203,7 +203,7 @@
 	</select>
 	
 	<!-- 演示if标签，根据动态条件更新角色信息。【注意每个if标签的SQL后的“，”和最后还要更新"id=#{id}"】-->
-	<update id="updateByIdSelective">
+	<!-- <update id="updateByIdSelective">
 		update sys_user
 		set 
 			<if test="userName != null and userName != ''">
@@ -225,6 +225,33 @@
 			create_time = #{createTime, jdbcType=TIMESTAMP},
 			</if>
 			id = #{id}
+		where id = #{id}
+	</update> -->
+	
+	<!-- 演示set标签，会自动剔除末尾逗号。【注意：要保留"id=#{id}"】-->
+	<update id="updateByIdSelective">
+		update sys_user
+		<set> 
+			<if test="userName != null and userName != ''">
+			user_name = #{userName},
+			</if>
+			<if test="userPassword != null and userPassword != ''">
+			user_password = #{userPassword},
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+			user_email = #{userEmail},
+			</if>
+			<if test="userInfo != null and userInfo != ''">
+			user_info = #{userInfo},
+			</if>
+			<if test="headImg != null">
+			head_img = #{headImg, jdbcType=BLOB},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime, jdbcType=TIMESTAMP},
+			</if>
+			id = #{id},
+		</set>
 		where id = #{id}
 	</update>
 	
