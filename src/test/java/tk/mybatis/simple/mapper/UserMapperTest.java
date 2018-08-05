@@ -303,4 +303,32 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * 测试使用<choose><when><otherwise>动态查询数据
+	 */
+	@Test
+	public void testSelectByIdOrUserName() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			//仅按id搜索
+			SysUser query = new SysUser();
+			query.setId(1L);
+			query.setUserName("admin");
+			SysUser user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNotNull(user);
+			//仅按用户名搜索
+			query.setId(null);
+			user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNotNull(user);
+			//搜索条件是空
+			query.setUserName(null);
+			user = userMapper.selectByIdOrUserName(query);
+			Assert.assertNull(user);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 }
