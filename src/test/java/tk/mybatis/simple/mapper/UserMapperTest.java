@@ -350,4 +350,31 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 	
+	/**
+	 * 测试使用<foreach> 批量插入数据 和 //批量回写主键id值【报错？】
+	 */
+	@Test
+	public void testInsertList() {
+		SqlSession sqlSession = getSqlSession();
+		try {
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysUser> userList = new ArrayList<SysUser>();
+			for(int i=0; i<2; i++) {
+				SysUser user = new SysUser();
+				user.setUserName("test"+i);
+				user.setUserPassword("123456");
+				user.setUserEmail("test@mybatis.tk");
+				userList.add(user);
+			}
+			int result = userMapper.insertList(userList);
+			Assert.assertEquals(2,result);
+			//下面打印验证执行了批量回写主键id值【报错？】
+//			for(SysUser user : userList) {
+//				System.out.println(user.getId());
+//			}
+		} finally {
+			sqlSession.rollback();
+			sqlSession.close();
+		}
+	}
 }

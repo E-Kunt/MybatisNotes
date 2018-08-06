@@ -343,4 +343,19 @@
 		</foreach>
 	</select>
 	
+	<!-- 演示foreach标签实现批量插入的用法--> 
+	<!-- useGeneratedKeys="true" keyProperty="id" 【报错？】-->
+	<insert id="insertList"> 
+		insert into sys_user(
+			user_name, user_password, user_email,
+			user_info, head_img, create_time
+		) values
+		<foreach collection="list" item="user" separator=",">
+			(
+			#{user.userName}, #{user.userPassword}, #{user.userEmail},
+			#{user.userInfo}, #{user.headImg, jdbcType=BLOB}, 
+			#{user.createTime, jdbcType=TIMESTAMP}
+			)
+		</foreach>
+	</insert>
 </mapper>

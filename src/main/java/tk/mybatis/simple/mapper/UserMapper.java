@@ -108,4 +108,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<SysUser> selectByIdList(List<Long> idList);
+	
+	/**
+	 * 批量插入数据
+	 * @param userList
+	 * @return
+	 */
+	int insertList(List<SysUser> userList);
 }
