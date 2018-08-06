@@ -100,4 +100,12 @@ public interface UserMapper {
 	 * @return
 	 */
 	SysUser selectByIdOrUserName(SysUser sysUser);
+	
+	/**
+	 * 根据用户ID集合查询。
+	 * 【若有多个参数，每个参数前使用注解@Param】
+	 * @param idList
+	 * @return
+	 */
+	List<SysUser> selectByIdList(List<Long> idList);
 }

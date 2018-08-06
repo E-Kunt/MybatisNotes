@@ -326,4 +326,21 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<!-- 演示foreach标签的用法,结合SQL的in-->
+	<select id="selectByIdList" resultType="tk.mybatis.simple.model.SysUser">
+		select id,
+			user_name userName,
+			user_password userPassword,
+			user_email userEmail,
+			user_info userInfo,
+			head_img headImg,
+			create_time createTime
+		from sys_user
+		where id in
+		<foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+			#{id}	
+		</foreach>
+	</select>
+	
 </mapper>
