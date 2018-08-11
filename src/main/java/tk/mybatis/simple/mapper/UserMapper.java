@@ -1,6 +1,7 @@
 package tk.mybatis.simple.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -115,4 +116,11 @@ public interface UserMapper {
 	 * @return
 	 */
 	int insertList(List<SysUser> userList);
+	
+	/**
+	 * 通过MAP更新列
+	 * @param map
+	 * @return
+	 */
+	int updateByMap(Map<String,Object> map);
 }
