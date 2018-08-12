@@ -203,7 +203,7 @@
 	</select> -->
 	
 	<!-- 演示bind标签，支持多数据库语法，防止SQL注入-->
-	<select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
+	<!--<select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
 		select
 			id,
 			user_name,
@@ -217,6 +217,32 @@
 			<if test="userName != null and userName != ''">
 				<bind name="userNameLike" value="'%' + userName + '%'"/>
 				and user_name like #{userNameLike}
+			</if>
+			<if test="userEmail != null and userEmail != ''">
+				and user_email = #{userEmail}
+			</if>
+		</where>
+	</select> -->
+	
+	<!-- 演示if标签配合_databaseId参数来添加多数据库支持-->
+	<select id="selectByUser" resultType="tk.mybatis.simple.model.SysUser">
+		select
+			id,
+			user_name,
+			user_password,
+			user_email,
+			user_info,
+			head_img,
+			create_time
+		from sys_user
+		<where>
+			<if test="userName != null and userName != ''">
+				<if test="_databaseId == 'mysql'">
+					and user_name like concat('%',#{userName},'%')
+				</if>
+				<if test="_databaseId == 'orcale'">
+					and user_name like '%'||#{userName}||'%'
+				</if>
 			</if>
 			<if test="userEmail != null and userEmail != ''">
 				and user_email = #{userEmail}

@@ -2,6 +2,11 @@
 <!DOCTYPE configuration 
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 注意标签的顺序，不然会报错。
+	 Content Model : (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, 
+ 	 objectWrapperFactory?, reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?) 
+-->
+
 <configuration>
 	<settings>
 		<!-- 设置mybatis的全局属性 -->
@@ -29,6 +34,18 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		</environment>
 	</environments>
 	
+	<!-- 需要多数据库支持时才配置，name的值是模糊匹配 -->
+	<databaseIdProvider type="DB_VENDOR">
+		<property name="SQL Server" value="sqlserver"/>
+		<property name="DB2" value="db2"/>
+		<property name="Oracle" value="oracle"/>
+		<property name="MySQL" value="mysql"/>
+		<property name="PostgreSQL" value="postgresql"/>
+		<property name="Derby" value="derby"/>
+		<property name="HSQL" value="hsqldb"/>
+		<property name="H2" value="h2"/>
+	</databaseIdProvider>
+	
 	<!-- 配置数据库表和对象的映射文件 -->
 	<mappers>
 		<!-- 方式1 -->
@@ -41,4 +58,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- 方式2 使用了接口时-->
 		<package name="tk.mybatis.simple.mapper"/>
 	</mappers>
+	
 </configuration>
