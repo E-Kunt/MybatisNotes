@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration
+	PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+	"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="MySqlContext" targetRuntime="myBatis3Simple" defaultModelType="flat"><!-- flat使一表生一实体 -->
+		<property name="beginningDelimiter" value="`"/>
+		<property name="endingDelimiter" value="`"/>
+		<property name="javaFileEncoding" value="UTF-8"/>
+		<!-- 注释生成器 加注释，禁止注释中生成日期 -->
+		<commentGenerator>
+			<property name="suppressDate" value="true"/>
+			<property name="addRemarkComments" value="true"/>
+		</commentGenerator>
+		<!-- 数据源 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			 connectionURL="jdbc:mysql://localhost:3306/mybatis"
+			 userId="root"
+			 password="tiger">
+		</jdbcConnection>
+		<!-- 设置包名、位置 -->
+		<javaModelGenerator targetPackage="test.model" targetProject="simple\src\main\java">
+			<property name="trimStrings" value="true"/>
+		</javaModelGenerator>
+		<!-- 设置Mapper.xml文件位置 -->
+		<sqlMapGenerator targetPackage="test.xml" targetProject="simple\src\main\resources"/>
+		<!-- 生成Mapper接口的位置 type=XMLMAPPER 指定接口和XML完全分离-->
+		<javaClientGenerator targetPackage="test.dao" type="XMLMAPPER" targetProject="simple\src\main\java"/>
+		<!-- 使用通配符匹配，表都设自增主键 -->
+		<table tableName="%">
+			<generatedKey column="id" sqlStatement="MySql"/>
+		</table>
+	</context>
+	
+	<!-- 针对Eclipse插件 -->
+	<classPathEntry location="G:\mysql\mysql-connector-java-5.1.38-bin.jar"/>
+</generatorConfiguration>

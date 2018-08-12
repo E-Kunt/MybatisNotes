@@ -19,6 +19,31 @@
   				<target>1.8</target>
   			</configuration>
   		</plugin>
+  		
+  		<!-- 使用maven配置方式使用代码生成器 -->
+  		<!-- <plugin>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-maven-plugin</artifactId>
+			<version>1.3.3</version>
+			<configuration>
+				<configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
+				<overwrite>true</overwrite>
+				<verbose>true</verbose>
+			</configuration>
+		<dependencies>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.38</version>
+			</dependency>
+			<dependency>
+				<groupId>tk.mybatis</groupId>
+				<artifactId>simple</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+		</plugin> -->
+  		
   	</plugins>
   </build>
   
@@ -54,6 +79,11 @@
   		<groupId>log4j</groupId>
   		<artifactId>log4j</artifactId>
   		<version>1.2.17</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.mybatis.generator</groupId>
+  		<artifactId>mybatis-generator-core</artifactId>
+  		<version>1.3.3</version>
   	</dependency>
   </dependencies>
   
