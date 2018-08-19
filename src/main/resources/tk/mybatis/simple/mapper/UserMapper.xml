@@ -439,6 +439,7 @@
 	
 	<!-- 注意这里配置了columnPrefix="role_"，所以下面的SQL的SysRole表别名要加上role_前缀。
 	（其实可以不配置，就不用加前缀） -->
+	<!-- 嵌套组合2个resuletMap -->
 	<resultMap id="userRoleMap" extends="userMap" type="tk.mybatis.simple.model.SysUser">
 		<association property="role" columnPrefix="role_" resultMap="tk.mybatis.simple.mapper.RoleMapper.roleMap"/>
 	</resultMap>
@@ -460,6 +461,31 @@
 		from sys_user u
 		inner join sys_user_role ur on u.id = ur.user_id
 		inner join sys_role r on ur.role_id = r.id
+	    where u.id = #{id}
+	</select>
+	
+	
+	<!-- 组合resultMap和 内部嵌套查询的结果 
+		注意：1.下面主查询结果多出的ur.role_id对应了【column="{id=role_id}"的role_id】，为嵌套查询传参.
+			2.fetchType="lazy" 懒加载，得配置mybatis-config.xml的aggressiveLazyLoading = false才能生效
+	-->
+	<resultMap id="userRoleMapSelect" extends="userMap" type="tk.mybatis.simple.model.SysUser">
+		<association property="role" column="{id=role_id}" fetchType="lazy"
+			select="tk.mybatis.simple.mapper.RoleMapper.selectRoleById"/>
+	</resultMap>
+	
+	<select id="selectUserAndRoleByIdSelect" resultMap="userRoleMapSelect">
+	    select 
+	    	u.id, 
+	    	u.user_name, 
+	        u.user_password,
+	        u.user_email,
+	        u.user_info,
+	        u.head_img,
+	        u.create_time,
+	        ur.role_id
+		from sys_user u
+		inner join sys_user_role ur on u.id = ur.user_id
 	    where u.id = #{id}
 	</select>
 	

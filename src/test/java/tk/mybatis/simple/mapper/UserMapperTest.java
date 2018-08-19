@@ -401,6 +401,9 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 	
+	/**
+	 * 根据USERID查USER和ROLE（发出1条查询语句）
+	 */
 	@Test
 	public void testSelectUserAndRoleById(){
 		//获取 sqlSession
@@ -419,6 +422,9 @@ public class UserMapperTest extends BaseMapperTest {
 		}
 	}
 	
+	/**
+	 * 根据USERID查USER和ROLE（发出1条查询语句）
+	 */
 	@Test
 	public void testSelectUserAndRoleById2(){
 		//获取 sqlSession
@@ -429,6 +435,31 @@ public class UserMapperTest extends BaseMapperTest {
 			SysUser user = userMapper.selectUserAndRoleById2(1001L);
 			//user 不为空
 			Assert.assertNotNull(user);
+			//user.role 也不为空
+			Assert.assertNotNull(user.getRole());
+		} finally {
+			//不要忘记关闭 sqlSession
+			sqlSession.close();
+		}
+	}
+	
+	
+	/**
+	 * 根据USERID查USER和ROLE（发出2条查询语句）
+	 */
+	@Test
+	public void testSelectUserAndRoleByIdSelect(){
+		//获取 sqlSession
+		SqlSession sqlSession = getSqlSession();
+		try {
+			//获取 UserMapper 接口
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = userMapper.selectUserAndRoleByIdSelect(1001L);
+			//user 不为空
+			Assert.assertNotNull(user);
+			/*System.out.println("用于促发懒加载：调用equals clone hashCode toString，会立即发起二次查询");
+			user.equals(null);*/
+			System.out.println("用于判断懒加载：出现这句后将调用user.getRole()");
 			//user.role 也不为空
 			Assert.assertNotNull(user.getRole());
 		} finally {

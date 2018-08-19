@@ -125,16 +125,24 @@ public interface UserMapper {
 	int updateByMap(Map<String,Object> map);
 	
 	/**
-	 * 根据USERID查USER和ROLE
+	 * 根据USERID查USER和ROLE（发出1条查询语句）
 	 * @param id
 	 * @return
 	 */
 	SysUser selectUserAndRoleById(Long id);
 	
 	/**
-	 * 根据USERID查USER和ROLE
+	 * 根据USERID查USER和ROLE（发出1条查询语句）
 	 * @param id
 	 * @return
 	 */
 	SysUser selectUserAndRoleById2(Long id);
+	
+	
+	/**
+	 * 根据USERID查USER和ROLE（发出2条查询语句）
+	 * @param id
+	 * @return
+	 */
+	SysUser selectUserAndRoleByIdSelect(Long id);
 }

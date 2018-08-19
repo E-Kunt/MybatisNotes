@@ -9,4 +9,8 @@
 		<result property="createBy" column="create_by"/>
 		<result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
 	</resultMap>
+	
+	<select id="selectRoleById" resultMap="roleMap">
+		select * from sys_role where id = #{id}
+	</select>
 </mapper>
