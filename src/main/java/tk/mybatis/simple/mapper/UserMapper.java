@@ -123,4 +123,18 @@ public interface UserMapper {
 	 * @return
 	 */
 	int updateByMap(Map<String,Object> map);
+	
+	/**
+	 * 根据USERID查USER和ROLE
+	 * @param id
+	 * @return
+	 */
+	SysUser selectUserAndRoleById(Long id);
+	
+	/**
+	 * 根据USERID查USER和ROLE
+	 * @param id
+	 * @return
+	 */
+	SysUser selectUserAndRoleById2(Long id);
 }

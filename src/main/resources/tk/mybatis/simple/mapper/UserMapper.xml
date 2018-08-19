@@ -417,4 +417,50 @@
 		where id = #{id}
 	</update>
 	
+	<select id="selectUserAndRoleById" resultType="tk.mybatis.simple.model.SysUser">
+		select 
+		   	u.id, 
+		   	u.user_name userName, 
+		    u.user_password userPassword,
+		    u.user_email userEmail,
+		    u.user_info userInfo,
+		    u.head_img headImg,
+		    u.create_time createTime,
+			r.id "role.id", 
+			r.role_name "role.roleName", 
+			r.enabled "role.enabled",
+			r.create_by "role.createBy",
+			r.create_time "role.createTime"
+		from sys_user u
+		inner join sys_user_role ur on u.id = ur.user_id
+		inner join sys_role r on ur.role_id = r.id
+		where u.id = #{id}
+	</select>
+	
+	<!-- 注意这里配置了columnPrefix="role_"，所以下面的SQL的SysRole表别名要加上role_前缀。
+	（其实可以不配置，就不用加前缀） -->
+	<resultMap id="userRoleMap" extends="userMap" type="tk.mybatis.simple.model.SysUser">
+		<association property="role" columnPrefix="role_" resultMap="tk.mybatis.simple.mapper.RoleMapper.roleMap"/>
+	</resultMap>
+	
+	<select id="selectUserAndRoleById2" resultMap="userRoleMap">
+	    select 
+	    	u.id, 
+	    	u.user_name, 
+	        u.user_password,
+	        u.user_email,
+	        u.user_info,
+	        u.head_img,
+	        u.create_time,
+			r.id role_id,
+			r.role_name role_role_name, 
+			r.enabled role_enabled,
+			r.create_by role_create_by,
+			r.create_time role_create_time
+		from sys_user u
+		inner join sys_user_role ur on u.id = ur.user_id
+		inner join sys_role r on ur.role_id = r.id
+	    where u.id = #{id}
+	</select>
+	
 </mapper>
