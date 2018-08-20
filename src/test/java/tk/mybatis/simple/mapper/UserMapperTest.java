@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tk.mybatis.simple.model.SysPrivilege;
 import tk.mybatis.simple.model.SysRole;
 import tk.mybatis.simple.model.SysUser;
 
@@ -462,6 +463,33 @@ public class UserMapperTest extends BaseMapperTest {
 			System.out.println("用于判断懒加载：出现这句后将调用user.getRole()");
 			//user.role 也不为空
 			Assert.assertNotNull(user.getRole());
+		} finally {
+			//不要忘记关闭 sqlSession
+			sqlSession.close();
+		}
+	}
+	
+	/**
+	 * 查询所有用户和对应角色信息
+	 */
+	@Test
+	public void testSelectAllUserAndRoles(){
+		//获取 sqlSession
+		SqlSession sqlSession = getSqlSession();
+		try {
+			//获取 UserMapper 接口
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			List<SysUser> userList = userMapper.selectAllUserAndRoles();
+			System.out.println("用户数：" + userList.size());
+			for(SysUser user : userList) {
+				System.out.println("用户名：" + user.getUserName());
+				for(SysRole role : user.getRoleList()) {
+					System.out.println("角色名：" + role.getRoleName());
+					for (SysPrivilege privilege : role.getPrivilegeList()) {
+						System.out.println("权限名：" + privilege.getPrivilegeName());
+					}
+				}
+			}
 		} finally {
 			//不要忘记关闭 sqlSession
 			sqlSession.close();

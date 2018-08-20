@@ -1,6 +1,7 @@
 package tk.mybatis.simple.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 角色
@@ -13,9 +14,11 @@ public class SysRole {
 	private Integer enabled;
 	private Long createBy;
 	private Date createTime;
-	
 	private SysUser user;
-	
+	//角色包含的权限（加此字段为了演示多对多 多层嵌套写法）
+	private List<SysPrivilege> privilegeList;
+	/*//创建信息（封装）（加此字段为了演示多对多 多层嵌套写法）
+	private CreateInfo createInfo;*/
 	
 	public Long getId() {
 		return id;
@@ -54,5 +57,19 @@ public class SysRole {
 		this.user = user;
 	}
 	
+	public List<SysPrivilege> getPrivilegeList() {
+		return privilegeList;
+	}
 	
+	public void setPrivilegeList(List<SysPrivilege> privilegeList) {
+		this.privilegeList = privilegeList;
+	}
+	
+	/*public CreateInfo getCreateInfo() {
+		return createInfo;
+	}
+	
+	public void setCreateInfo(CreateInfo createInfo) {
+		this.createInfo = createInfo;
+	}*/
 }

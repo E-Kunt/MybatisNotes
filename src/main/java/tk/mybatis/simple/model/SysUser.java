@@ -1,6 +1,7 @@
 package tk.mybatis.simple.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户
@@ -16,8 +17,10 @@ public class SysUser {
 	private String userInfo;
 	private byte[] headImg;
 	private Date createTime;
-	//一对一 加字段
+	//假设是一对一关系 加字段
 	private SysRole role;
+	//假设是多对多关系 加容器
+	private List<SysRole> roleList;
 	
 	public Long getId() {
 		return id;
@@ -68,5 +71,11 @@ public class SysUser {
 		this.role = role;
 	}
 	
+	public List<SysRole> getRoleList() {
+		return roleList;
+	}
 	
+	public void setRoleList(List<SysRole> roleList) {
+		this.roleList = roleList;
+	}
 }

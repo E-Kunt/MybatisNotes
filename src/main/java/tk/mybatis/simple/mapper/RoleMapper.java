@@ -1,6 +1,8 @@
 package tk.mybatis.simple.mapper;
 
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -84,4 +86,9 @@ public interface RoleMapper {
 	@Delete("delete from sys_role where id = #{id}")
 	int deleteById(Long id);
 	
+	/**
+	 * 查询所有角色和对应的权限
+	 * @return
+	 */
+	List<SysRole> selectAllRoleAndPrivileges();
 }
