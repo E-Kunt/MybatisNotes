@@ -520,4 +520,24 @@
 	</select>
 	
 	
+	<!-- 通过嵌套查询获取指定用户的信息，以及用户的角色和权限信息 -->
+	<resultMap id="userRoleListMapSelect" extends="userMap" type="tk.mybatis.simple.model.SysUser">
+		<collection property="roleList"
+					fetchType="lazy"
+					select="tk.mybatis.simple.mapper.RoleMapper.selectRoleByUserId"
+					column="{userId=id}"/>
+	</resultMap>
+	
+	<select id="selectAllUserAndRolesSelect" resultMap="userRoleListMapSelect">
+	    select 
+	    	u.id, 
+	    	u.user_name, 
+	        u.user_password,
+	        u.user_email,
+	        u.user_info,
+	        u.head_img,
+	        u.create_time
+		from sys_user u
+		where u.id = #{id}
+	</select>
 </mapper>

@@ -495,4 +495,28 @@ public class UserMapperTest extends BaseMapperTest {
 			sqlSession.close();
 		}
 	}
+	
+	/**
+	 * 通过嵌套查询获取指定用户的信息，以及用户的角色和权限信息
+	 */
+	@Test
+	public void testSelectAllUserAndRolesSelect(){
+		//获取 sqlSession
+		SqlSession sqlSession = getSqlSession();
+		try {
+			//获取 UserMapper 接口
+			UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+			SysUser user = userMapper.selectAllUserAndRolesSelect(1L);
+			System.out.println("用户名：" + user.getUserName());
+			for(SysRole role: user.getRoleList()){
+				System.out.println("角色名：" + role.getRoleName());
+				for(SysPrivilege privilege : role.getPrivilegeList()){
+					System.out.println("权限名：" + privilege.getPrivilegeName());
+				}
+			}
+		} finally {
+			//不要忘记关闭 sqlSession
+			sqlSession.close();
+		}
+	}
 }
